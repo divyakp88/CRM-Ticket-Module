@@ -36,7 +36,7 @@ $_SESSION['role'] = $role; //author/assignee
     <a href=" ../tickets/my_tickets.php" class="btn btn-success">View My Tickets</a>
     <a href=" ../tickets/update_ticket.php" class="btn btn-warning">Update My Ticket</a>
 <?php elseif($role=="assignee"): ?>
-    <a href=" ../tickets/assigned_tickets" class="btn btn-primary">View Assigned Tickets</a>
+    <a href=" ../tickets/view_assigned_tickets.php" class="btn btn-primary">View Assigned Tickets</a>
     <a href=" ../tickets/update_status.php" class="btn btn-info">Update Ticket Status</a>
 <?php endif; ?>
 
