@@ -79,6 +79,13 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         );
         $stmt_update->bind_param("sssisii",$name,$description,$file_path,$assigned_to,$assigned_at,$ticket_id,$user_id);
         if($stmt_update->execute()){
+            if (!empty($assigned_to)) {
+
+        // Update new assignee (only if not admin)
+            $update_role = $conn->prepare("UPDATE users SET role='assignee' WHERE id=? AND role!='admin'");
+            $update_role->bind_param("i", $assigned_to);
+            $update_role->execute();
+            }
             header("Location: my_tickets.php?success=1");
             exit();
         }else {

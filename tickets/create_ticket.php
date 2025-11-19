@@ -49,7 +49,15 @@ if($_SESSION["role"]!="author"){
         //insert in to tickets table
         $stmt = $conn->prepare("INSERT INTO tickets (name, description, status, file, created_by, assigned_to, assigned_at) VALUES (?, ?,'pending',?,?,?,?)");
         $stmt->bind_param("sssiis", $name, $description, $file_path, $created_by, $assigned_to, $assigned_at);
+
+        
         if($stmt->execute()){
+            //update user role in users table
+            if (!empty($assigned_to)) { 
+            $update_role = $conn->prepare("UPDATE users SET role='assignee' WHERE id=? AND role!='admin'");
+            $update_role->bind_param("i", $assigned_to);
+            $update_role->execute();
+            }
             $message="Ticket Created Successfully";
             header("Location:my_tickets.php?success=1");
             exit();
