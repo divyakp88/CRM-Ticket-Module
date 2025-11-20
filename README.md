@@ -65,45 +65,7 @@ git clone <https://github.com/divyakp88/CRM-Ticket-Module>
      http://localhost/crm_project/index.php
    - Login with your credentials to start using the CRM.
      
-## 📂 Project Structure
-<pre>```crm_project/
-│
-├─ admin/
-│ ├─ index.php
-│ ├─ admin_auth.php
-│ ├─ admin_edit_ticket.php
-│ ├─ dashboard_content.php
-│ ├─ manage_ticket.php
-│ ├─ update_ticket_admin.php
-│ └─ users.php
-| |__css
-|   |__style.css  
 
-│
-├─ assets/
-│ ├─ css/
-│ │ └─ style.css
-│ 
-│
-├─ auth/
-│ ├─ login.php
-│ ├─ register.php
-│ └─ logout.php
-│
-├─ config/
-│ └─ db.php
-│
-├─ dashboard/
-│ └─ index.php (author/assignee dashboard)
-│
-├─ tickets/
-│ ├─ create_ticket.php
-│ ├─ my_tickets.php
-│ ├─ update_status.php
-│ ├─ update_ticket.php
-│ └─ view_assigned_tickets.php
-│
-├─ uploads/ (user uploaded files)
-└─ index.php (main landing page)```</pre>
+
 
 
