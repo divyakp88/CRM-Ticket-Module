@@ -1,3 +1,27 @@
+<?php
+session_start();
+
+// If user already logged in, redirect based on role
+if (isset($_SESSION["role"])) {
+
+    if ($_SESSION["role"] == "admin") {
+        header("Location: /crm_project/admin/index.php");
+        exit;
+    }
+
+    if ($_SESSION["role"] == "assignee") {
+        header("Location: /crm_project/dashboard/index.php");
+        exit;
+    }
+
+    if ($_SESSION["role"] == "author") {
+        header("Location: /crm_project/dashboard/index.php");
+        exit;
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>

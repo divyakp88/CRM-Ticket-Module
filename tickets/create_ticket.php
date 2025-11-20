@@ -53,11 +53,7 @@ if($_SESSION["role"]!="author"){
         
         if($stmt->execute()){
             //update user role in users table
-            if (!empty($assigned_to)) { 
-            $update_role = $conn->prepare("UPDATE users SET role='assignee' WHERE id=? AND role!='admin'");
-            $update_role->bind_param("i", $assigned_to);
-            $update_role->execute();
-            }
+        
             $message="Ticket Created Successfully";
             header("Location:my_tickets.php?success=1");
             exit();
@@ -71,7 +67,7 @@ if($_SESSION["role"]!="author"){
  //fetch users for assignee dropdown(exclude current user)
 
  $current_user_id=$_SESSION["user_id"];
- $user_result=$conn->query("SELECT id,name FROM users where id!=$current_user_id");
+ $user_result=$conn->query("SELECT id,name FROM users where id!=$current_user_id AND role!='admin'");
  ?>
 
  <!DOCTYPE html>

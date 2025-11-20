@@ -75,17 +75,31 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     }else {
         //$assigned_at=!empty($assigned_to)?date("Y-m-d H:i:s"):NULL;
         $stmt_update=$conn->prepare(
-            "UPDATE tickets SET name=?,description=?,file=?,assigned_to=?,assigned_at=? WHERE id=? AND created_by=?" 
+            "UPDATE tickets SET name=?,description=?,file=?,assigned_at=? WHERE id=? AND created_by=?" 
         );
-        $stmt_update->bind_param("sssisii",$name,$description,$file_path,$assigned_to,$assigned_at,$ticket_id,$user_id);
+        $stmt_update->bind_param("ssssii",$name,$description,$file_path,$assigned_at,$ticket_id,$user_id);
         if($stmt_update->execute()){
-            if (!empty($assigned_to)) {
+            //get old assignee
+            $old_assignee = $ticket['assigned_to'];
 
-        // Update new assignee (only if not admin)
-            $update_role = $conn->prepare("UPDATE users SET role='assignee' WHERE id=? AND role!='admin'");
-            $update_role->bind_param("i", $assigned_to);
-            $update_role->execute();
-            }
+        // If the assignee has changed
+        if ($old_assignee != $assigned_to) {
+
+        // If new assignee is empty -> remove assignee
+        if (empty($assigned_to)) {
+             $role = 'author';     // Ticket now has no assignee
+            $new_assigned_to = NULL;
+        } 
+        else {
+            $role = 'assignee';   // New user assigned
+            $new_assigned_to = $assigned_to;
+         }
+
+    // Update role + assigned_to field
+        $upd = $conn->prepare("UPDATE tickets SET assigned_to=?, role=? WHERE id=?");
+        $upd->bind_param("isi", $new_assigned_to, $role, $ticket_id);
+        $upd->execute();
+        }
             header("Location: my_tickets.php?success=1");
             exit();
         }else {
@@ -96,7 +110,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     
 }
 //fetch all users except current user for assignee drop down
-$user_result=$conn->query("SELECT id,name FROM users WHERE id!=$user_id");
+$user_result=$conn->query("SELECT id,name FROM users WHERE id!=$user_id AND role!='admin'");
 ?>
 
 <!DOCTYPE html>

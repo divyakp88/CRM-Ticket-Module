@@ -25,7 +25,7 @@ if(!$ticket){
 }
 
 //fetch all users for reassign
-$users=$conn->query("SELECT id,name FROM users");
+$users=$conn->query("SELECT id,name FROM users WHERE role!='admin'");
 ?>
 
 <style>
